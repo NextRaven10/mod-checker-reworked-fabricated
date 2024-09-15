@@ -1,0 +1,14 @@
+{
+  "mods": [
+    {
+      "modId": "ftbchunks",
+      "directDownloadLink": "https://www.curseforge.com/api/v1/mods/314906/files/5378090/download",
+      "websiteDownloadLink": "https://www.curseforge.com/minecraft/mc-mods/ftb-chunks-forge"
+    },
+    {
+      "modId": "ftbquests",
+      "directDownloadLink": "https://www.curseforge.com/api/v1/mods/289412/files/5543955/download",
+      "websiteDownloadLink": "https://www.curseforge.com/minecraft/mc-mods/ftb-quests-forge"
+    }
+  ]
+}
