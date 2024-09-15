@@ -30,7 +30,10 @@ public class Config {
     public Config(ForgeConfigSpec.Builder builder) {
         mods = List.of(
                 new ModConfig("ftbchunks", "https://www.curseforge.com/api/v1/mods/314906/files/5378090/download", "https://www.curseforge.com/minecraft/mc-mods/ftb-chunks-forge"),
-                new ModConfig("ftbquests", "https://www.curseforge.com/api/v1/mods/289412/files/5543955/download", "https://www.curseforge.com/minecraft/mc-mods/ftb-quests-forge")
+                new ModConfig("ftbquests", "https://www.curseforge.com/api/v1/mods/289412/files/5543955/download", "https://www.curseforge.com/minecraft/mc-mods/ftb-quests-forge"),
+                new ModConfig("ftbteams", "https://www.curseforge.com/api/v1/mods/404468/files/5267190/download", "https://www.curseforge.com/minecraft/mc-mods/ftb-teams-forge"),
+                new ModConfig("ftblibrary", "https://www.curseforge.com/api/v1/mods/404465/files/5567591/download", "https://www.curseforge.com/minecraft/mc-mods/ftb-library-forge")
+
         );
     }
 
