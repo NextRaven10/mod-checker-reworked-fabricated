@@ -3,6 +3,7 @@ package de.stylelabor.markap.ftb_checker_reworked;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.Util;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.gui.GuiGraphics;
@@ -59,6 +60,9 @@ public class MissingModsScreen extends Screen {
             ));
             y += 24;
         }
+
+        // Stop all sounds, including background music
+        Minecraft.getInstance().getSoundManager().stop();
 
         // Add the "Download automatically" button with increased margin
         y += 24;
