@@ -2,12 +2,8 @@
 package de.stylelabor.markap.ftb_checker_reworked;
 
 import net.minecraftforge.common.ForgeConfigSpec;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.event.config.ModConfigEvent;
 import org.apache.commons.lang3.tuple.Pair;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 import java.util.List;
 import java.util.Optional;
@@ -17,7 +13,7 @@ public class Config {
 
     public static final ForgeConfigSpec CONFIG_SPEC;
     public static final Config CONFIG;
-    private static final Logger LOGGER = LogManager.getLogger();
+
 
     static {
         final Pair<Config, ForgeConfigSpec> specPair = new ForgeConfigSpec.Builder().configure(Config::new);
@@ -63,8 +59,4 @@ public class Config {
                 .findFirst();
     }
 
-    @SubscribeEvent
-    public static void onLoad(final ModConfigEvent.Loading configEvent) {
-        LOGGER.info("Configuration loaded");
-    }
 }

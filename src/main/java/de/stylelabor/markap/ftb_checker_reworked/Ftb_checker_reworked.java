@@ -30,12 +30,14 @@ public class Ftb_checker_reworked {
     private static final Logger LOGGER = LogUtils.getLogger();
 
     public Ftb_checker_reworked() {
+        //noinspection removal (commented out)
         IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
 
         modEventBus.addListener(this::commonSetup);
         modEventBus.addListener(this::clientSetup);
         modEventBus.addListener(this::onLoadComplete);
         MinecraftForge.EVENT_BUS.register(this);
+        //noinspection removal (commented out)
         ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, Config.CONFIG_SPEC);
     }
 
@@ -79,7 +81,7 @@ public class Ftb_checker_reworked {
 
         @SubscribeEvent
         public static void onClientSetup(FMLClientSetupEvent event) {
-            LOGGER.info("HELLO FROM CLIENT SETUP");
+            LOGGER.info("FTB CHECKER REWORKED >> HELLO FROM CLIENT SETUP");
         }
     }
 }
