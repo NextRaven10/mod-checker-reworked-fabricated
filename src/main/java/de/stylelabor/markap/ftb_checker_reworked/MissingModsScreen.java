@@ -40,10 +40,9 @@ public class MissingModsScreen extends Screen {
     private Button restartButton;
 
     protected MissingModsScreen(List<String> missingMods) {
-        super(Component.literal("Missing FTB Mods"));
+        super(Component.literal("Missing Mods"));
         this.missingMods = missingMods;
     }
-
 
     @Override
     protected void init() {
