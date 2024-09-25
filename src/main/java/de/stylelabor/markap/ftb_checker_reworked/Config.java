@@ -39,7 +39,7 @@ public class Config {
 
     private void loadModsFromFile() {
         try {
-            Path path = Paths.get("config/ftb_checker_reworked.json");
+            Path path = Paths.get("config/mod_checker_reworked.json");
             if (!Files.exists(path)) {
                 createDefaultConfigFile();
             }
@@ -65,7 +65,7 @@ public class Config {
                 new ModConfig("ftbultimine", "https://www.curseforge.com/api/v1/mods/386134/files/5363345/download", "https://www.curseforge.com/minecraft/mc-mods/ftb-ultimine")
         );
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
-        try (OutputStreamWriter writer = new OutputStreamWriter(Files.newOutputStream(Paths.get("config/ftb_checker_reworked.json")))) {
+        try (OutputStreamWriter writer = new OutputStreamWriter(Files.newOutputStream(Paths.get("config/mod_checker_reworked.json")))) {
             gson.toJson(defaultMods, writer);
         }
     }

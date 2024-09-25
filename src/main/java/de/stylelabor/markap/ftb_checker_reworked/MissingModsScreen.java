@@ -7,6 +7,7 @@ import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
+import net.minecraft.util.FormattedCharSequence;
 import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -27,12 +28,14 @@ public class MissingModsScreen extends Screen {
     private static final Logger LOGGER = LoggerFactory.getLogger(MissingModsScreen.class);
     private final List<String> missingMods;
     private Button restartButton;
+    private String modsList;
 
     protected MissingModsScreen(List<String> missingMods) {
         super(Component.literal("Missing Mods"));
         this.missingMods = missingMods;
     }
 
+    // MissingModsScreen.java
     @Override
     protected void init() {
         LOGGER.info("Initializing MissingModsScreen with mods: {}", missingMods);
@@ -50,6 +53,13 @@ public class MissingModsScreen extends Screen {
                 ));
                 y += 24;
             }
+        } else {
+            // Prepare the list of missing mods as a single line of text
+            modsList = missingMods.stream()
+                    .map(this::formatModName)
+                    .reduce((mod1, mod2) -> mod1 + ", " + mod2)
+                    .orElse("");
+            y += 24;
         }
 
         // Stop all sounds, including background music
@@ -92,6 +102,30 @@ public class MissingModsScreen extends Screen {
         this.addRenderableWidget(restartButton);
     }
 
+    @Override
+    public void render(@NotNull GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTicks) {
+        this.renderBackground(guiGraphics); // Render default background
+        guiGraphics.drawCenteredString(this.font, this.title.getString(), this.width / 2, 20, 0xFFFFFF);
+
+        // Render the list of missing mods with text wrapping
+        if (missingMods.size() > 5 && modsList != null) {
+            int maxWidth = this.width - 40; // 20 pixels padding on each side
+            List<FormattedCharSequence> wrappedLines = this.font.split(Component.literal(modsList), maxWidth);
+            int y = this.height / 4 + 24;
+            for (FormattedCharSequence line : wrappedLines) {
+                guiGraphics.drawCenteredString(this.font, line, this.width / 2, y, 0xFFFFFF);
+                y += this.font.lineHeight + 2; // Add a small margin between lines
+            }
+        }
+
+        super.render(guiGraphics, mouseX, mouseY, partialTicks);
+    }
+
+    @Override
+    public boolean shouldCloseOnEsc() {
+        return false;
+    }
+
     private void showMessage() {
         if (Objects.requireNonNull(this.minecraft).player != null) {
             Objects.requireNonNull(this.minecraft.player).displayClientMessage(Component.literal("Download started..."), false);
@@ -122,17 +156,5 @@ public class MissingModsScreen extends Screen {
             Files.copy(in, filePath);
             LOGGER.info("Downloaded mod to: {}", filePath);
         }
-    }
-
-    @Override
-    public void render(@NotNull GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTicks) {
-        this.renderBackground(guiGraphics); // Render default background
-        guiGraphics.drawCenteredString(this.font, this.title.getString(), this.width / 2, 20, 0xFFFFFF);
-        super.render(guiGraphics, mouseX, mouseY, partialTicks);
-    }
-
-    @Override
-    public boolean shouldCloseOnEsc() {
-        return false;
     }
 }
