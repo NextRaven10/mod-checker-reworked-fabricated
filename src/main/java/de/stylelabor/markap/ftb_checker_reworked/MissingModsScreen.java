@@ -1,14 +1,12 @@
 // MissingModsScreen.java
 package de.stylelabor.markap.ftb_checker_reworked;
 
-import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.Util;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
 import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -27,16 +25,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class MissingModsScreen extends Screen {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(MissingModsScreen.class);
-    private static final String MODID = "ftbcheckerreworked";
-    private static final ResourceLocation[] BACKGROUND_TEXTURES = {
-            new ResourceLocation(MODID, "textures/gui/gui-1.png"),
-            new ResourceLocation(MODID, "textures/gui/gui-2.png"),
-            new ResourceLocation(MODID, "textures/gui/gui-3.png"),
-            new ResourceLocation(MODID, "textures/gui/gui-4.png")
-    };
-    private static final AtomicInteger currentTextureIndex = new AtomicInteger(0);
     private final List<String> missingMods;
-
     private Button restartButton;
 
     protected MissingModsScreen(List<String> missingMods) {
@@ -48,16 +37,19 @@ public class MissingModsScreen extends Screen {
     protected void init() {
         LOGGER.info("Initializing MissingModsScreen with mods: {}", missingMods);
         int y = this.height / 4 + 24;
-        for (String modId : missingMods) {
-            String formattedModName = formatModName(modId);
-            int finalY = y;
-            Config.CONFIG.getWebsiteDownloadLink(modId).ifPresent(link -> this.addRenderableWidget(Button.builder(
-                            Component.literal("Download ").append(Component.literal(formattedModName).withStyle(style -> style.withBold(true).withColor(0xFFA500))),
-                            button -> Util.getPlatform().openUri(link))
-                    .bounds(this.width / 2 - 100, finalY, 200, 20)
-                    .build()
-            ));
-            y += 24;
+
+        if (missingMods.size() <= 5) {
+            for (String modId : missingMods) {
+                String formattedModName = formatModName(modId);
+                int finalY = y;
+                Config.CONFIG.getWebsiteDownloadLink(modId).ifPresent(link -> this.addRenderableWidget(Button.builder(
+                                Component.literal("Download ").append(Component.literal(formattedModName).withStyle(style -> style.withBold(true).withColor(0xFFA500))),
+                                button -> Util.getPlatform().openUri(link))
+                        .bounds(this.width / 2 - 100, finalY, 200, 20)
+                        .build()
+                ));
+                y += 24;
+            }
         }
 
         // Stop all sounds, including background music
@@ -134,10 +126,7 @@ public class MissingModsScreen extends Screen {
 
     @Override
     public void render(@NotNull GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTicks) {
-        ResourceLocation backgroundTexture = BACKGROUND_TEXTURES[currentTextureIndex.get() % BACKGROUND_TEXTURES.length];
-        RenderSystem.setShaderTexture(0, backgroundTexture);
-        guiGraphics.blit(backgroundTexture, 0, 0, 0, 0, this.width, this.height, this.width, this.height); // Adjusted to use the screen dimensions
-        this.renderBackground(guiGraphics); // Ensure this is called after setting the texture
+        this.renderBackground(guiGraphics); // Render default background
         guiGraphics.drawCenteredString(this.font, this.title.getString(), this.width / 2, 20, 0xFFFFFF);
         super.render(guiGraphics, mouseX, mouseY, partialTicks);
     }
