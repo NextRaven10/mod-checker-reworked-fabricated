@@ -94,7 +94,7 @@ public class MissingModsScreen extends Screen {
 
         // Initialize the restart button but set it to be invisible initially
         restartButton = Button.builder(
-                        Component.literal("Restart the game to finish the download!").withStyle(style -> style.withColor(0xFF0000)), // Red color, not bold
+                        Component.literal("Restart the game to finish!").withStyle(style -> style.withColor(0xFF0000)), // Red color, not bold
                         button -> Objects.requireNonNull(this.minecraft).stop())
                 .bounds(this.width / 2 - 100, y + 24, 200, 20)
                 .build();
