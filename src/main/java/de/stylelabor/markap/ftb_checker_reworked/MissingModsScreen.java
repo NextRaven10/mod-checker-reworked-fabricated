@@ -104,7 +104,10 @@ public class MissingModsScreen extends Screen {
 
     @Override
     public void render(@NotNull GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTicks) {
-        this.renderBackground(guiGraphics); // Render default background
+        // Draw a semi-transparent background
+        guiGraphics.fill(0, 0, this.width, this.height, 0x80000000); // 50% transparent black
+
+        // Render the title
         guiGraphics.drawCenteredString(this.font, this.title.getString(), this.width / 2, 20, 0xFFFFFF);
 
         // Render the list of missing mods with text wrapping
@@ -118,6 +121,7 @@ public class MissingModsScreen extends Screen {
             }
         }
 
+        // Render buttons and other components
         super.render(guiGraphics, mouseX, mouseY, partialTicks);
     }
 
